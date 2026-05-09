@@ -1,0 +1,146 @@
+//EXERCISES
+
+//THE EQUALIZER
+
+To settle a long-time feud, Shaunak and Yash decided to play a game on an array a of n integers, with Shaunak going first. The players take turns, and the last player to make a move wins. On a player's turn, he chooses some ai>0 and decrements it by 1.
+To make things interesting, Shaunak is allowed to use a special move at most once during the game. This move replaces his normal turn. When used, all elements ai (1≤i≤n) are set to a special value k that is given initially.
+Assuming that both players play optimally, determine if Shaunak can always win.
+
+
+el problema te plantea una competencia de turnos en donde cada uno va restando ai>0 y restando de 1 en 1.
+Shaunak tiene un movimiento especial, solo lo puede usar 1 vez.
+
+Shaunak tiene 2 oportunidades de ganar en el mismo juego, el primero es:
+bool ans=((d*c)%2==0);//usa el movimiento especial desde el principio, si ans es par pierde, si no, gana.
+
+la seg oportunidad:
+int t=accumulate(b.begin(), b.end(), 0);//suma todos los ai 
+ans|=t%1;//si resulta ser impar entonces Shaunak gana, sino, pierde, se usa or para cualquier opcion que de 1.
+
+#include <bits/stdc++.h>
+using namespace std;
+int main() {
+    
+    int a, c, d, e;
+    
+    
+    cin>>a;
+    while(a--){
+        cin>>d>>c;
+        vector<int>b(d);
+        e=0;
+        for(int i=0; i<d; i++)cin>>b[i];
+        bool ans=((d*c)%2==0);
+        
+        int t=accumulate(b.begin(), b.end(), 0);
+
+        ans|=t%1;
+        
+        cout<<(ans?"yes";no)<<endl;
+        
+    }
+}
+
+
+
+
+
+//FLIP THE BIT
+
+
+You are given a binary array a of length n and k special indices p1,p2,…,pk (1≤pi≤n). It is given that the values ai of all elements at special indices are the same (i. e., ap1=ap2=…=apk).
+In one operation, you can choose a range [l,r] (1≤l≤r≤n) such that the range contains at least one special index (l≤pi≤r) and flip all bits aj for l≤j≤r. Flipping a bit changes 0 to 1 and 1 to 0.
+Let x denote the value at special indices before any operations are applied. Find the minimum number of operations required to make all elements of the array equal to x.
+
+Tienes que ver bloques, el proceso es ir recorriendo hasta c, que es el indice especial tanto L como R, estos 2 te dan el cambio o fragmentacion de cada bloque,
+el lado mas fragmentado es el que te da el resultado por eso se hace max(L, R), el pivot o indice especial tambien se usa de relleno por que se usa como referencia
+de x, el cambio de bloque de cada lado es una forma mas estructural de verlo, es un truco con padding y conteo de transiciones pero no es la unica forma.
+   
+
+#include <bits/stdc++.h>
+using namespace std;
+
+void solve(){
+    int n, k, c;
+    
+    cin>>n>>k;
+    
+    vector<int>ent(n+2);
+    for(int i=1; i<=n; i++)cin>>ent[i];
+    
+    cin>>c;
+    ent[0]=ent[n+1]=ent[c];
+    int nl=0, nr=0;
+    for(int i=0; i<c; i++){
+        if(ent[i]!=ent[i+1])nl++;
+        
+    }
+    
+    for(int i=c; i<n+1; i++){
+        if(ent[i]!=ent[i+1])nr++;
+        
+    }
+    
+    cout<<max(nl, nr)<<endl;//elige el mas fragmentado
+    
+}
+
+int main() {
+    int a, b, c;
+
+    cin>>a;
+    while(a--){
+        solve();
+        
+    }
+}
+
+
+
+
+////GRID COVERING
+Prakul has been working hard setting problems for Codecraft. When he's deep in thought, he likes jumping around his room in weird but specific ways. After some time, he wonders if jumping in this manner can cover all the tiles of his room.
+Prakul's room can be considered as a grid A consisting of n rows and m columns. He starts walking from A1,1. If he is currently at Ai,j he can do either of the following moves:
+    Jump b steps right to Ai,((j+b−1)modm)+1, or
+    Jump a steps down to A((i+a−1)modn)+1,j. 
+A special restriction is that he can start with either move, but must alternate between them.
+Note that his room is quite special as it wraps around itself. Moving one step right from the m-th column places him in the 1-st column. Similarly, moving one step down from the n-th row places him in the 1-st row.
+Since he still has to work on problemsetting, he needs your help. Determine if he can visit all tiles in A in a finite number of jumps.
+
+Este ejercicio te dice en resumen si puedes llenar una cuadricula pero tienes dos formas de saltar, hacia la derecha o hacia abajo, u no se puede repetir dos veces el mismo salto,
+este ejercicio tienes que verlo como pacman, una vez que llegas al borde reapareces del otro lado, por que?es intuitivo, al no haber decisiones reales como bfs o dfs se vuelve mas facil
+ya sea horizontal o vertical, no mas. Estas obligado a alternar, la caminata modular es clave en este problema.
+#include <iostream>
+#include <numeric>
+using namespace std;
+int main() {
+    int a, b, n, m, k;
+    
+    cin>>k;
+    while(k--){
+        
+        cin>>n>>m>>a>>b;
+        
+        if(gcd(n, a)==1 and gcd(m, b)==1 and gcd(n, m)<=2){    
+            cout<<"yes"<<endl;
+        }
+        else{
+            cout<<"no"<<endl;
+        }
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
