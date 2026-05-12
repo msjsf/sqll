@@ -131,15 +131,58 @@ int main() {
 }
 
 
+//FLIP THE BIT(HARD VERSION)
 
+You are given a binary array a of length n and k special indices p1,p2,…,pk (1≤pi≤n). It is given that the values ai of all elements at special indices are the same (i. e., ap1=ap2=…=apk).
+In one operation, you can choose a range [l,r] (1≤l≤r≤n) such that the range contains at least one special index (l≤pi≤r) and flip all bits aj for l≤j≤r. Flipping a bit changes 0 to 1 and 1 to 0.
+Let x denote the value at special indices before any operations are applied. Find the minimum number of operations required to make all elements of the array equal to x.
 
+Esto es parecido a lo anterior pero con la diferencia que en vez de haber 1 especial hay varios especiales por ende sube un poco de nivel.
 
+para resolver esto hicimos limites tanto al principio como al final de s para que no hubiera ningun error de conteo
+esta forma de hacerlo es mas sencilla de lo que parece, lo unico que se hizo fue un doble for y contar los bloques, es decir cada que cambiaba de 0 a 1 o de 1 a 0
+en cada iteracion se escoge al maximo numero de transiciones en un solo segmento x=max(x, count), cada operacion de flip invierte un segmento y puedes arreglar dos transiciones a la vez
+que serian la entrada y la salida de un bloque por eso se divide /2 que vendria siendo la optimización global y x el cuello de botella
 
+#include <bits/stdc++.h>
+using namespace std;
 
+void solve(){
+    int n, k;
+    cin>>n>>k;
+    vector<int>s(n+2);
+    vector<int>pe(k);
+    for(int i=1; i<=n; i++)cin>>s[i];
+    
+    for(int i=1; i<=k; i++)cin>>pe[i];
+    
+    s[0]=s[n+1]=arr[pe[1]];
+    
+    cntl=0, cntr=0, x=0, ss=0;
+    for(int i=0; i<=k; i++){
+        cnt=0;
+        for(int j=pe[i]; j<pe[i+1]; j++){
+            if(s[j]!=s[j+1])cnt++;
+            
+        }
+        ss+=cnt;
+        x=max(x, cnt);
+    }
+    
+    cout<<max(ss/2, x)<<endl;
+    
+}
 
-
-
-
+int main() {
+    
+    int a;
+    cin>>a;
+    while(a--){
+        solve();
+    }
+    
+    
+}
 
 
 
