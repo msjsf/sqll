@@ -184,6 +184,79 @@ int main() {
     
 }
 
+//Definitely larger
+You are given a permutation p∗ of integers from 1 to n.
+For an arbitrary permutation q of length n, we say that index j dominates index i if and only if all of the following conditions hold:
+    j>i,
+    pj>pi, and
+    qj>qi. 
+You are also given an array d of length n, where di denotes the number of indices that dominate index i.
+Your task is to construct a permutation q of integers from 1 to n such that for every index i (1≤i≤n), the number of indices j that dominate i is exactly di.
+If such q exists, output any valid one. Otherwise, report that it does not exist.
+Este ejercicio se trata de estructura binaria, estructura de algoritmos, greedy entre mas.Es un ejercicio al principio poco entendible que poco a poco se vuelve mas
+sencillo de lo que parece. Se trata de cumplir varias condiciones entre las cuales deben de cumplirse todas para que sea valido el resultado, debes de construir el arreglo 
+q para que cumpla todas las condiciones.Pare este problema ordenamos por indices, despues se usa for para llamar cada indice de cada valor de mayor a menor.Es una comparacion
+de indices, se compara d con m, se ordena y se agrega en q.
+
+#include <bits/stdc++.h>
+using namespace std;
+
+int main() {
+    int a, n, k;
+    cin>>a;
+    while(a--){
+        
+        cin>>n;
+        
+        vector<int>p(n+1), pos(n+1);
+        vector<int>d(n+1);
+        
+        vector<int>q(n+1);
+        for(int i=1; i<=n; i++){
+            cin>>p[i];
+            pos[p[i]]=i;
+        }
+        for(int i=1; i<=n; i++)cin>>d[i];
+
+        vector<int>q(n);
+        bool ok=true;
+        for(int val=n; val>=1 && ok; i--){
+            int i=pos[val];
+            int m=0;
+            for(auto idx:q)if(idx>i)++m;
+            
+            if(d[i]>m){
+                ok=false;
+                break;
+            }
+            
+            int before=0;
+            int cnt=0;
+            int insertpos=0;
+            while(insertpos<(int)q.size() && cnt<before){
+                if(q[insertpos]>i)++cnt;
+                ++insertpos;
+            }
+            q.insert(q.begin()+insertpos, i);
+        }
+
+        if(!ok){
+            cout<<-1<<endl;
+            continue;
+        }
+
+        vector<int>a(n+1, 0);
+        for(int k=0; k<n; k++){
+            a[q[k]]=k+1;
+        }
+        for(int i=1; i<=n; i++){
+            cout<<a[i]<<(i==n?"\n":" ")
+        }
+    }
+}
+
+
+
 
 
 
