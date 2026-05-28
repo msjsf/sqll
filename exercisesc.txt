@@ -258,5 +258,152 @@ int main() {
 
 
 
+//BINGO CANDIES
+Alice has a magic board. The board is described as a n×n grid; each tile has a colored candy in it. The color of the candy in the i-th row, j-th column is ai,j.
+Bob wants to know if he can rearrange the board in some way so that no row or column consists of n candies of the same color.
+Your task is to determine whether such a rearrangement exists.
+#include <bits/stdc++.h>
+using namespace std;
+int main() {
+    int a, b, c;
+    
+    cin>>a;
+    while(a--){
+        cin>>b;
+        map<int, long long>nums;
+        int k, cnt=0;
+        
+        for(int i=0; i<b; i++){
+            for(int i=1; i<=b; i++){
+                cin>>k;
+                nums[k]++;
+                
+            }
+            
+        }
+        bool ok=1;
+        for(auto &r: nums){
+            if(r.second>1LL*b*(b-1)){
+                ok=0;
+            }
+            
+        }
+        if(ok)cout<<"yes"<<endl;
+        else cout<<"no"<<endl;
+        
+        
+    }
+    
+    
+}
 
 
+
+//Cyclists
+
+Bob likes to play an interesting tower defense game on his mobile phone. In the game, he must play cards to defeat his opponents!
+There are n cards placed in a queue called a deck. At any moment, Bob is only able to play the cards that are currently placed in the first k positions in the deck. 
+In each turn, Bob selects a card placed in the first k positions, removes it from the deck, plays it, and then places the same card back at the bottom of the deck. In other words,
+ in each turn an element from the first k elements in the queue is selected, moved to the end of the queue, and all elements placed after it are moved one index to the front.
+One card is called the win-condition, and Bob wants to play it as many times as possible. However, each card also has a cost needed to play. The i-th card (initially placed at the i-th position)
+ costs Bob ai energy every time it is played. The total cost of cards played must not exceed m. Initially, the win-condition card is placed at the p-th place in the queue.
+You need to find out the maximum number of times the win-condition card can be played, ensuring that the total cost does not exceed m.
+
+La estrategia es jugar las primeras cartas lo mas optimo hasta llegar a la especial es decir restas x-k, si m es mayor a 0 comienza la fase 2.
+La fase 2 consiste en llegar al estado estable, es decir sumar el ciclo, una vez sumado el ciclo divides m+1/sum que vendria siendo el resultado y se suma +1 por que es la repeticion
+que lograste antes de la segunda fase.
+
+#include <bits/stdc++.h>
+using namespace std;
+#define ll long long
+int n, k, p, a[40];
+ll m;
+void solve(){
+    cin>>n>>k>>p>>m;
+    for(int i=1; i<=n; i++)cin>>a[i];
+    multiset<int>opt;
+    
+    for(int i=1; i<=k-1; i++)opt.insert(a[i]);
+    for(int i=k; i<=p-1; i++){
+        opt.insert(a[i]);
+        m-=*opt.begin();
+        opt.erase(opt.begin());
+        
+    }
+    m-=a[p];
+    if(m<0){
+        cout<<0<<endl;
+        return;
+        
+    }
+    ll sum=a[p];
+    opt.clear();
+    for(int i=1; i<=n; i++){
+        if(i!=p)opt.insert(a[i]);
+    }
+    
+    for(int i=1; i<=n-k; i++){
+        sum+=*opt.begin();
+        opt.erase(opt.begin());
+    }
+    
+    
+    cout<<1+m/sum<<endl;
+}
+
+
+int main() {
+    int t;
+    cin>>t;
+    while(t--){
+        solve();
+    }
+    
+}
+
+
+
+
+//Stamina and Tasks
+
+There are n tasks for you. Task i has an integer value of ci and a difficulty of pi. Also, you have an initial stamina of 1, 
+which is denoted as S. You should process the tasks from task 1 to task n. For each task, you have two choices.
+    Give up the task. This way, nothing will happen.
+    Complete the task. This way, you will gain S⋅ci points. However, S will drop to S⋅(1−pi100) after the task is completed. 
+You need to maximize your points after you finish the process.
+
+
+#include <bits/stdc++.h>
+using namespace std;
+#define id long double
+const int N=1e5+5;
+id c[N], p[N];
+void solve(){
+    int n;
+    cin>>n;
+    for(int i=0; i<n; i++){
+        int cv, pv;
+        cin>>cv>>pv;
+        cv=c[cv], p[i]=pv/100.0;
+        
+    }
+    id ans=0;
+    for(int i=n; i>=1; i--){
+        ans=max(ans, ans*(1-p[i])+c[i]);
+        
+    }
+    cout<<fixed<<setprecision(10)<<ans<<endl;
+    
+}
+
+int main() {
+    int t;
+    cin>>t;
+    while(t--){
+        solve();
+        
+    }
+    
+    
+    
+}
